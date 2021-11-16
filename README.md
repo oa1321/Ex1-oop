@@ -77,3 +77,24 @@ the class fields:
     list_of_elevators = a list containing all the elevators in the building(as objects)
     building_raw_data = the dictionary we got 
     floors = the amount of floors in the building
+## GUI - Showing Elevator Program
+in the git we have the file new_emulator
+by ruuing this Program you will be abble to see the 
+Elevators moving according to the csv file
+
+HOW TO USE?
+- run the Program(required python and some liberies)
+- enter the call file you used(a,b,c,d)
+- enter the building number you used(1,2,3,4,5)
+- the Program is looking for a file in this format
+json_name = "./Ex1_input/Ex1_Buildings/B(number).json"
+
+csv_name = "./Ex1_input/Ex1_Output/Calls_(call number+Building number).csv"
+
+example for entering a , 1 the program will look for the files:
+
+* json_name = "./Ex1_input/Ex1_Buildings/B1.json"
+
+* csv_name = "./Ex1_input/Ex1_Output/Calls_a1.csv"
+if the program finds the files you will move to a new screen with 2 buttons 
+START and STOP simply press start and you will see the Elevators start to move
