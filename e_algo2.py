@@ -1,5 +1,6 @@
 import csv
 import json
+import sys
 
 
 class Call:
@@ -208,15 +209,7 @@ if __name__ == '__main__':
     b_num = 5
     c_num = 'a'
 
-    json_name = "./Ex1_input/Ex1_Buildings/B" + str(b_num) + ".json"
-    csv_name = "./Ex1_input/Ex1_Calls/Calls_" + c_num + ".csv"
-    csv_out = "./Ex1_out/Calls_" + c_num + str(b_num) + ".csv"
-    for i in [1,2,3,4,5]:
-        for j in ["a","b","c","d"]:
-            b_num = i
-            c_num = j
-
-            json_name = "./Ex1_input/Ex1_Buildings/B" + str(b_num) + ".json"
-            csv_name = "./Ex1_input/Ex1_Calls/Calls_" + c_num + ".csv"
-            csv_out = "./Ex1_out/Calls_" + c_num + str(b_num) + ".csv"
-            main(json_name,csv_name,csv_out)
+    json_name = sys.argv[1]
+    csv_name = sys.argv[2]
+    csv_out = sys.argv[3]
+    main(json_name,csv_name,csv_out)
