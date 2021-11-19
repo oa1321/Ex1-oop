@@ -83,6 +83,8 @@ in the git we have the file new_emulator
 by ruuing this Program you will be abble to see the 
 Elevators moving according to the csv file
 
+the video - https://www.youtube.com/watch?v=cA7X5P7OgZg
+
 HOW TO USE?
 - run the Program(required python and some liberies)
 - enter the call file you used(a,b,c,d)
