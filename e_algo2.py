@@ -1,7 +1,10 @@
 import csv
 import json
+import sys
 
-
+"""
+savas the call data in an object 
+"""
 class Call:
     call_raw_data = []
     time = 0
@@ -26,7 +29,10 @@ class Call:
         return "Call handle by elevator: " + str(self.elevator_call) + " got called in: " + \
                str(self.time) + " route: " + str(self.origin) + "-->" + str(self.destination)
 
-
+"""
+the elevator class gets the data of the elevator and saves it for easier use of the data
+also saves a list that contain all the calls objects that the elevator will do
+"""
 class Elevator:
     elevator_raw_data = {}
     number = 0
@@ -59,7 +65,10 @@ class Elevator:
         return "[-|-] NO." + str(self.number) + " speed(in Floor-Per-Second): " + str(self.floor_per_sec) + \
                " section - " + str(self.section)
 
-
+"""
+the building class gets the data of the building and saves it for easier use of the data
+also saves a list that contain all the elevators object that are in the building
+"""
 class Building:
     min_floor = 0
     max_floor = 0
@@ -90,7 +99,9 @@ class Building:
         return "Building range: " + str(self.min_floor) + " <--> " + \
                str(self.max_floor) + "\nELEVATORS:\n" + elevator_str
 
-
+"""
+open the files and returning 3 lists that contains the files data
+"""
 def open_files(json_file_name, csv_file_name):
     with open(json_file_name) as f:
         data = json.load(f)
@@ -106,7 +117,9 @@ def open_files(json_file_name, csv_file_name):
             all_calls.append(row)
     return all_calls, my_building, my_elevators
 
-
+"""
+gets a file name and call list and write the data on the list to the file
+"""
 def write_file(csv_file_name, my_calls):
     with open(csv_file_name, 'w',newline='') as f:
         writer = csv.writer(f)
@@ -114,7 +127,9 @@ def write_file(csv_file_name, my_calls):
             row = call.get_csv_format()
             writer.writerow(row)
 
-
+"""
+calc for each elevator the total time it will take for her to do all the calls she have + the new call
+"""
 def calc_total_wait_time(curr_e, new_call):
     total = 0
     speed = 1/curr_e.floor_per_sec
@@ -151,7 +166,10 @@ def calc_total_wait_time(curr_e, new_call):
         total += abs(last_call.destination - new_call.origin) * speed
     return total
 
-
+"""
+choosing an elevator for each call by data got from other functions 
+and writes the results to the output file
+"""
 def sort_calls_algo(my_building, my_calls):
     f_amount = my_building.floors
     e_amount = my_building.elevator_num
@@ -177,19 +195,21 @@ def sort_calls_algo(my_building, my_calls):
     print(my_building)
     write_file(csv_out, my_calls)
 
+"""
+thr main function - 
+gets the building , calls and output files names
+calls the open files function to open the files 
+"""
 def main(json_name, csv_name, csv_out):
     calls, building, elevators = open_files(json_name, csv_name)
 
     my_building = Building(building)
-
-    print("ALL CALLS - ")
     calls_list = []
     calls_list_printable = []
     for i in calls:
         c = Call(i)
         calls_list.append(c)
         calls_list_printable.append(c.get_csv_format())
-    print("BUILDING - ")
     elevators_list = []
     k = 0
     for i in elevators:
@@ -199,24 +219,18 @@ def main(json_name, csv_name, csv_out):
         elevators_list.append(c)
         k += 1
     my_building.list_of_elevators = elevators_list
-    print(my_building)
-
     sort_calls_algo(my_building, calls_list)
 
-
+"""
+definening the files we will work with
+"""
 if __name__ == '__main__':
     b_num = 5
     c_num = 'a'
-
-    json_name = "./Ex1_input/Ex1_Buildings/B" + str(b_num) + ".json"
-    csv_name = "./Ex1_input/Ex1_Calls/Calls_" + c_num + ".csv"
-    csv_out = "./Ex1_out/Calls_" + c_num + str(b_num) + ".csv"
-    for i in [1,2,3,4,5]:
-        for j in ["a","b","c","d"]:
-            b_num = i
-            c_num = j
-
-            json_name = "./Ex1_input/Ex1_Buildings/B" + str(b_num) + ".json"
-            csv_name = "./Ex1_input/Ex1_Calls/Calls_" + c_num + ".csv"
-            csv_out = "./Ex1_out/Calls_" + c_num + str(b_num) + ".csv"
-            main(json_name,csv_name,csv_out)
+    """
+    sys,argv[0] returns file name 
+    """
+    json_name = sys.argv[1]
+    csv_name = sys.argv[2]
+    csv_out = sys.argv[3]
+    main(json_name,csv_name,csv_out)
